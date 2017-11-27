@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Keywords" content="关键词1,关键词2">
+		<meta name="Description" content="描述">
+		<title>幸运大转盘</title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			#box{
+				position:relative;
+				width:854px;
+				height:504px;
+				background:#cc0000 url("images/bg1.png");
+				margin:100px auto;
+			}
+			.rotateArrow{
+				position:absolute;
+				left:181px;
+				top:103px;
+				width:294px;
+				height:294px;
+				background:url("images/arrow.png");
+			}
+			.user{
+				position:absolute;
+				right:48px;
+				top:144px;
+				width:120px;
+				height:320px;
+				overflow:hidden;
+			}
+			.user ul{
+				position:relative;
+				top:0px;
+			}
+			.user ul li{
+				list-style:none;
+				height:37px;
+				background:url("images/user.png") no-repeat left center;
+				color:#ff9900;
+				text-indent:20px;
+				line-height:37px;
+			}
+			.result{
+				display:none;
+				position:absolute;
+				left:128px;
+				top:187px;
+				width:400px;
+				height:120px;
+				background:rgba(0,0,0,0.5);
+			}
+			.result i{
+				position:absolute;
+				right:0;
+				top:0;
+				width:24px;
+				height:24px;
+				background:url("images/close.png");
+			}
+			.result p{
+				color:#fff;
+				text-align:center;/*文本左右对齐方式:居中*/
+				line-height:120px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div class="rotateArrow"></div>
+			<div class="user">
+				    <ul>
+					<li>1319****851</li>
+					<li>1352****206</li>
+					<li>1350****789</li>
+					<li>1340****627</li>
+					<li>1584****215</li>
+					<li>1579****572</li>
+					<li>1333****825</li>
+					<li>1396****805</li>
+					<li>1332****261</li>
+					<li>1864****863</li>
+					<li>1384****955</li>
+					<li>1877****137</li>
+					<li>1342****973</li>
+					<li>1558****071</li>
+					<li>1354****168</li>
+					<li>1362****018</li>
+					<li>1555****856</li>
+					<li>1354****809</li>
+					<li>1383****364</li>
+				</ul>
+			</div>
+			<div class="result">
+				<i></i>
+				<p>很遗憾你没有中奖!</p>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.rotate.min.js"></script>
+		<script>
+			//$(".rotateArrow")获取旋转的箭头
+			//点击实现功能
+			$(".rotateArrow").click(function(){
+				/*
+					Math.random() 生成0-1之间的随机数
+					Math.random()*10   0~9之间随机数
+					Math.floor() 向下取整
+				*/
+				var n = Math.floor(Math.random()*10);//0~10之间的随机整数
+				switch (n)
+				{
+				case 0:
+					rotateFun(0,"很遗憾你没有中奖!!");
+					break;
+				case 1:
+					rotateFun(45,"恭喜你获得5元代金券");
+					break;
+				case 2:
+					rotateFun(90,"恭喜你获得1元代金券");
+					break;
+				case 3:
+					rotateFun(135,"恭喜你获得10元代金券");
+					break;
+				case 4:
+					rotateFun(180,"很遗憾你没有中奖！！");
+					break;
+				case 5:
+					rotateFun(225,"恭喜你获得20元代金券");
+					break;
+				case 6:
+					rotateFun(270,"恭喜你获得50元代金券");
+					break;
+                case 7:
+					rotateFun(315,"恭喜你获得30元代金券");
+					break;
+				case 8:
+					rotateFun(180,"很遗憾你没有中奖！！");
+					break;
+				case 9:
+					rotateFun(0,"很遗憾你没有中奖!!");
+					break;
+				}
+				
+
+				//让箭头旋转起来
+				
+			})
+			//自定义旋转功能  deg 形参
+			function rotateFun(deg,text){
+				$(".rotateArrow").rotate({
+					angle:0,//初始角度
+					duration:5000,//动画执行的时间 5s
+					animateTo: deg + 1440,//旋转多少角度 随机
+					callback:function(){//当旋转结束返回结果
+						//让结果框显示
+						$(".result").show();
+						//把结果改为相应的箭头指向的结果
+						$(".result p").html(text);
+					}
+				});
+			}
+			//获取关闭按钮 点击关闭按钮隐藏结果框
+			$(".result i").click(function(){
+				//让结果框隐藏
+				$(".result").hide();
+			})
+
+			//让用户名循环滚动
+			setInterval(function(){
+				$(".user ul").animate({"top":"-37px"},500,function(){
+					//动画执行结束 把移上去的第一个添加到后面去
+					//$(this) 指代$(".user ul")
+					$(this).append($(".user ul li:first"));
+					//把ul的top值改为0
+					$(this).css("top",0);
+				});
+			},1000);
+		
+		</script>
+	</body>
+</html>
